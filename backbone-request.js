@@ -26,6 +26,7 @@ backboneRequest.sync = function(method, model, options) {
   if (!options.data && model && (method == 'create' || method == 'update')) {
     params.contentType = 'application/json';
     params.data = JSON.stringify(model.toJSON());
+    console.log(params.data);
   }
 
   // For older servers, emulate JSON by encoding the request into an HTML-form.
@@ -51,7 +52,7 @@ backboneRequest.sync = function(method, model, options) {
 
   _.extend(params, options);
 
-  request({ url: params.url, json: true, method: params.type, headers: params.headers }, function (err, result, body) {
+  request({ body: params.data, url: params.url, json: true, method: params.type, headers: params.headers }, function (err, result, body) {
     if (err) {
       return options.error(err);
     }
@@ -78,3 +79,4 @@ var getValue = function(object, prop) {
 var urlError = function() {
   throw new Error('A "url" property or function must be specified');
 };
+
